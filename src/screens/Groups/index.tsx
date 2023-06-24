@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Header } from "@components/Header";
-import { Container, Title } from "./styles";
+import { Container } from "./styles";
 import { HighLight } from "@components/HighLight";
 import { FlatList } from "react-native";
 import { GroupCard } from "@components/GroupCard";
