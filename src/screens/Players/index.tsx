@@ -38,7 +38,7 @@ export function Players() {
         />
         <NumberOfPlayers>{players.length}</NumberOfPlayers>
       </HeaderList>
-      <Button title="Criar" />
+      <Button title="Remover" type="SECONDARY" />
     </Container>
   );
 }
