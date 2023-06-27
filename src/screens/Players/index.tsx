@@ -7,6 +7,8 @@ import { Button } from "@components/Button";
 import { ButtonIcon } from "@components/ButtonIcon";
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
+import { PlayerCard } from "@components/PlayerCard";
+import { ListEmpty } from "@components/ListEmpty";
 
 export function Players() {
   const [team, setTeam] = useState("Time A");
@@ -38,7 +40,22 @@ export function Players() {
         />
         <NumberOfPlayers>{players.length}</NumberOfPlayers>
       </HeaderList>
-      <Button title="Remover" type="SECONDARY" />
+      <FlatList
+        data={players}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <PlayerCard name={item} onRemove={() => {}} />
+        )}
+        ListEmptyComponent={() => (
+          <ListEmpty message="Não existe pessoas neste time" />
+        )}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={[
+          { paddingBottom: 100 },
+          players.length === 0 && { flex: 1 },
+        ]}
+      />
+      <Button title="Remover Turma" type="SECONDARY" />
     </Container>
   );
 }
