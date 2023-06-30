@@ -5,12 +5,14 @@ import { HighLight } from "@components/HighLight";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { useState } from "react";
+import { groupCreate } from "@storage/group/groupCreate";
 
 export function NewGroup() {
   const [group, setGroup] = useState("");
   const { navigate } = useNavigation();
 
-  function handleNew() {
+  async function handleNew() {
+    await groupCreate(group);
     navigate("players", { group });
   }
   return (
