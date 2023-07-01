@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRoute } from "@react-navigation/native";
-import { Alert, FlatList } from "react-native";
+import { Alert, FlatList, TextInput } from "react-native";
 import { Header } from "@components/Header";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { HighLight } from "@components/HighLight";
@@ -12,7 +12,6 @@ import { PlayerCard } from "@components/PlayerCard";
 import { ListEmpty } from "@components/ListEmpty";
 import { AppError } from "@utils/AppError";
 import { PlayerAddByGroup } from "@storage/player/playerAddByGroup";
-import { PlayerGetByGroup } from "@storage/player/playersGetByGroup";
 import { PlayerGetByGroupAndTeam } from "@storage/player/PlayerGetByGroupAndTeam";
 import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 
@@ -24,6 +23,8 @@ export function Players() {
   const [newPlayerName, setNewPlayerName] = useState("");
   const route = useRoute();
   const { group } = route.params as RouteParams;
+
+  const newPlayerNameInputRef = useRef<TextInput>(null);
 
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0) {
@@ -38,6 +39,8 @@ export function Players() {
     };
     try {
       await PlayerAddByGroup(newPlayer, group);
+      newPlayerNameInputRef.current?.blur();
+      setNewPlayerName("");
       fetchPlayersByTeam();
     } catch (error) {
       if (error instanceof AppError) {
@@ -66,7 +69,14 @@ export function Players() {
       <Header showBackButton />
       <HighLight title={group} subtitle="Adicione a galera e separe os times" />
       <Form>
-        <Input placeholder="Nome da Pessoa" onChangeText={setNewPlayerName} />
+        <Input
+          placeholder="Nome da Pessoa"
+          value={newPlayerName}
+          onChangeText={setNewPlayerName}
+          inputRef={newPlayerNameInputRef}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType="done"
+        />
         <ButtonIcon icon="add" onPress={() => handleAddPlayer()} />
       </Form>
       <HeaderList>
