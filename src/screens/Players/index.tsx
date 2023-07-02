@@ -61,10 +61,11 @@ export function Players() {
       setIsLoading(true);
       const playersByTeam = await PlayerGetByGroupAndTeam(group, team);
       setPlayers(playersByTeam);
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
       Alert.alert("Pessoas", "Não foi possivel carregar");
+    } finally {
+      setIsLoading(false);
     }
   }
   async function handleRemovePlayer(playerName: string) {
